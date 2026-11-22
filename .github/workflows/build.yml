@@ -1,0 +1,20 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build_linux.sh
+      - uses: actions/upload-artifact@v4
+        with: { name: danger-alert-linux, path: dist/danger-alert }
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: .\build_windows.bat
+        shell: cmd
+      - uses: actions/upload-artifact@v4
+        with: { name: danger-alert-windows, path: dist/danger-alert.exe }
